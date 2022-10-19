@@ -23,6 +23,7 @@ enum EventType {
   BOUGHT
   PRICE_SET
   PRICE_REMOVED
+  MAX_SUPPLY_SET
 }
 
 enum Direction {
@@ -68,6 +69,8 @@ type UniqueClass @entity {
   events: [UniqueEvent!] @derivedFrom(field: "uniqueClass")
   metadata: String
   attributes: [Attribute!]!
+  maxSupply: Int
+  createdAt: DateTime! @index
 }
 
 type UniqueInstance @entity {
@@ -80,6 +83,7 @@ type UniqueInstance @entity {
   metadata: String
   attributes: [Attribute!]!
   price: BigInt! @index
+  mintedAt: DateTime! @index
 }
 
 type Attribute @jsonField {

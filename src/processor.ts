@@ -92,7 +92,9 @@ processor.addEvent('Uniques.ItemPriceSet', {
 processor.addEvent('Uniques.ItemPriceRemoved', {
   data: { event: { args: true } },
 } as const)
-
+processor.addEvent('Uniques.CollectionMaxSupplySet', {
+  data: { event: { args: true } },
+} as const)
 
 processor.run(new TypeormDatabase(), async (ctx) => {
   for (const block of ctx.blocks) {
@@ -212,6 +214,10 @@ async function processEventItems(
     }
     case 'Uniques.ItemPriceRemoved': {
       await mappings.uniqueItemPriceRemoved(ctx)
+      break
+    }
+    case 'Uniques.CollectionMaxSupplySet': {
+      await mappings.uniqueMaxSupplySet(ctx)
       break
     }
     default:

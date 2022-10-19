@@ -35,6 +35,11 @@ export class UniquesClassStorage {
     return this._chain.queryStorage(this.blockHash, 'Uniques', 'Class', keys.map(k => [k]))
   }
 
+  async getAllAsV1(): Promise<(v1.ClassDetails)[]> {
+    assert(this.isV1)
+    return this._chain.queryStorage(this.blockHash, 'Uniques', 'Class')
+  }
+
   /**
    *  Details of a collection.
    */
@@ -53,6 +58,11 @@ export class UniquesClassStorage {
   async getManyAsV9230(keys: number[]): Promise<(v9230.CollectionDetails | undefined)[]> {
     assert(this.isV9230)
     return this._chain.queryStorage(this.blockHash, 'Uniques', 'Class', keys.map(k => [k]))
+  }
+
+  async getAllAsV9230(): Promise<(v9230.CollectionDetails)[]> {
+    assert(this.isV9230)
+    return this._chain.queryStorage(this.blockHash, 'Uniques', 'Class')
   }
 
   /**
@@ -93,6 +103,11 @@ export class UniquesInstanceMetadataOfStorage {
   async getManyAsV1(keys: [number, number][]): Promise<(v1.InstanceMetadata | undefined)[]> {
     assert(this.isV1)
     return this._chain.queryStorage(this.blockHash, 'Uniques', 'InstanceMetadataOf', keys)
+  }
+
+  async getAllAsV1(): Promise<(v1.InstanceMetadata)[]> {
+    assert(this.isV1)
+    return this._chain.queryStorage(this.blockHash, 'Uniques', 'InstanceMetadataOf')
   }
 
   /**

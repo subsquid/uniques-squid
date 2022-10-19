@@ -387,6 +387,35 @@ export class UniquesCollectionFrozenEvent {
   }
 }
 
+export class UniquesCollectionMaxSupplySetEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Uniques.CollectionMaxSupplySet')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * Max supply has been set for a collection.
+   */
+  get isV9230(): boolean {
+    return this._chain.getEventHash('Uniques.CollectionMaxSupplySet') === '165991456bc3c6a81994ce513fdf36c2303f5220829f5e8caafbf821233135b4'
+  }
+
+  /**
+   * Max supply has been set for a collection.
+   */
+  get asV9230(): {collection: number, maxSupply: number} {
+    assert(this.isV9230)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
 export class UniquesCollectionMetadataClearedEvent {
   private readonly _chain: Chain
   private readonly event: Event

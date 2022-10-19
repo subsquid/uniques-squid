@@ -8,33 +8,32 @@
     "build": "rm -rf lib && tsc",
     "db:migrate": "npx squid-typeorm-migration apply",
     "processor:start": "node lib/processor.js",
-    "query-node:start": "squid-graphql-server --subscriptions"
+    "query-node:start": "squid-graphql-server --subscriptions --max-response-size 10000 --dumb-cache in-memory --dumb-cache-ttl 1000 --dumb-cache-size 100 --dumb-cache-max-age 1000"
   },
   "dependencies": {
-    "@subsquid/archive-registry": "1.0.12",
-    "@subsquid/cli": "0.6.0",
-    "@subsquid/graphql-server": "2.1.0",
-    "@subsquid/ss58": "^0.1.1",
-    "@subsquid/substrate-processor": "1.7.0",
+    "@subsquid/archive-registry": "1.0.14",
+    "@subsquid/graphql-server": "3.2.0",
+    "@subsquid/ss58": "0.1.2",
+    "@subsquid/substrate-processor": "1.9.1",
     "@subsquid/typeorm-migration": "0.1.2",
-    "@subsquid/typeorm-store": "0.1.2",
+    "@subsquid/typeorm-store": "0.1.4",
     "dotenv": "^10.0.0",
     "pg": "8.8.0",
     "typeorm": "0.3.9"
   },
   "devDependencies": {
-    "@subsquid/typeorm-codegen": "0.1.1",
+    "@subsquid/typeorm-codegen": "0.2.1",
     "@subsquid/substrate-metadata-explorer": "1.0.6",
-    "@subsquid/substrate-typegen": "1.2.2",
+    "@subsquid/substrate-typegen": "1.3.0",
     "@types/node": "16.11.56",
     "typescript": "4.8.2",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-typescript": "^12.3.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-import": "^2.25.3",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-type-graphql": "^0.3.2"
+    "eslint-plugin-sonarjs": "0.10.0",
+    "prettier": "2.3.0",
+    "prettier-eslint": "^13.0.0"
   }
 }

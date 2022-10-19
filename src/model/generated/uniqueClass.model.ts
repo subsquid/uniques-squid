@@ -45,4 +45,11 @@ export class UniqueClass {
 
   @Column_("jsonb", {transformer: {to: obj => obj.map((val: any) => val.toJSON()), from: obj => marshal.fromList(obj, val => new Attribute(undefined, marshal.nonNull(val)))}, nullable: false})
   attributes!: (Attribute)[]
+
+  @Column_("int4", {nullable: true})
+  maxSupply!: number | undefined | null
+
+  @Index_()
+  @Column_("timestamp with time zone", {nullable: false})
+  createdAt!: Date
 }

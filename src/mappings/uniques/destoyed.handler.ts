@@ -1,8 +1,15 @@
 import { EventHandlerContext } from '@subsquid/substrate-processor'
 import { Store } from '@subsquid/typeorm-store'
-import { EventType, Status } from '../../model/generated'
+import assert from 'assert'
+import {
+  EventType,
+  Status,
+  UniqueClass,
+  UniqueInstance,
+} from '../../model/generated'
 import * as events from '../../types/events'
 import {
+  createEvent,
   IUniquesClassId,
   processClassStateChange,
 } from '../helpers'
@@ -29,12 +36,31 @@ function getUniquesDestroyedData(
   return { classId }
 }
 
-export const uniqueClassDestroyed = (
+export async function uniqueClassDestroyed(
   ctx: EventHandlerContext<Store>
-): Promise<void> =>
-  processClassStateChange(
-    ctx,
-    getUniquesDestroyedData,
-    Status.DESTROYED,
-    EventType.DESTROY
-  )
+): Promise<void> {
+  const eventData = getUniquesDestroyedData(ctx)
+  const { classId } = eventData
+  const [uniqueClass, uniqueInstances] = await Promise.all([
+    ctx.store.get(UniqueClass, eventData.classId.toString()),
+    ctx.store.find(UniqueInstance, {
+      where: {
+        uniqueClass: {
+          id: classId.toString(),
+        },
+      },
+    }),
+  ])
+
+  assert(uniqueClass)
+  uniqueClass.status = Status.DESTROYED
+  uniqueInstances.forEach((instance) => (instance.status = Status.DESTROYED))
+  await ctx.store.save(uniqueClass)
+  await ctx.store.save(uniqueInstances)
+
+  const event = createEvent(ctx, {
+    uniqueClass,
+    type: EventType.DESTROY,
+  })
+  await ctx.store.save(event)
+}

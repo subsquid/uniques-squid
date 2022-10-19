@@ -16,4 +16,5 @@ export enum EventType {
   BOUGHT = "BOUGHT",
   PRICE_SET = "PRICE_SET",
   PRICE_REMOVED = "PRICE_REMOVED",
+  MAX_SUPPLY_SET = "MAX_SUPPLY_SET",
 }

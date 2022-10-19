@@ -43,4 +43,8 @@ export class UniqueInstance {
   @Index_()
   @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
   price!: bigint
+
+  @Index_()
+  @Column_("timestamp with time zone", {nullable: false})
+  mintedAt!: Date
 }

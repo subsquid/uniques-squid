@@ -23,5 +23,6 @@ export * from './teamChanged.handler'
 export * from './thawed.handler'
 export * from './transferred.handler'
 export * from './forceCreated.handler'
+export * from './maxSupplySet.handler'
 
 

@@ -1,5 +1,5 @@
-module.exports = class Data1662592543186 {
-  name = 'Data1662592543186'
+module.exports = class Data1666185648525 {
+  name = 'Data1666185648525'
 
   async up(db) {
     await db.query(`CREATE TABLE "unique_event" ("id" character varying NOT NULL, "from" text, "to" text, "price" numeric, "type" character varying(15) NOT NULL, "timestamp" TIMESTAMP WITH TIME ZONE NOT NULL, "block_hash" text NOT NULL, "block_num" integer NOT NULL, "unique_class_id" character varying, "unique_instance_id" character varying, CONSTRAINT "PK_aa8f097347f42e4604488bfe310" PRIMARY KEY ("id"))`)
@@ -11,15 +11,17 @@ module.exports = class Data1662592543186 {
     await db.query(`CREATE INDEX "IDX_56a82551c4bb5434454f3eb4df" ON "unique_event" ("type") `)
     await db.query(`CREATE INDEX "IDX_380d4970d488b79c37e1bdddbd" ON "unique_event" ("timestamp") `)
     await db.query(`CREATE INDEX "IDX_3b1be3b34ed16c9a88eb97c04c" ON "unique_event" ("block_num") `)
-    await db.query(`CREATE TABLE "unique_class" ("id" character varying NOT NULL, "owner" text, "admin" text, "issuer" text, "creator" text, "freezer" text, "status" character varying(9) NOT NULL, "metadata" text, "attributes" jsonb NOT NULL, CONSTRAINT "PK_3709d5e3a17fbd4901c0aaa1487" PRIMARY KEY ("id"))`)
+    await db.query(`CREATE TABLE "unique_class" ("id" character varying NOT NULL, "owner" text, "admin" text, "issuer" text, "creator" text, "freezer" text, "status" character varying(9) NOT NULL, "metadata" text, "attributes" jsonb NOT NULL, "max_supply" integer, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL, CONSTRAINT "PK_3709d5e3a17fbd4901c0aaa1487" PRIMARY KEY ("id"))`)
     await db.query(`CREATE INDEX "IDX_86298c2379ad253a57cf5e42df" ON "unique_class" ("owner") `)
     await db.query(`CREATE INDEX "IDX_d649d6ee098cf67d6d5d964431" ON "unique_class" ("status") `)
-    await db.query(`CREATE TABLE "unique_instance" ("id" character varying NOT NULL, "inner_id" integer NOT NULL, "status" character varying(9) NOT NULL, "metadata" text, "attributes" jsonb NOT NULL, "price" numeric NOT NULL, "unique_class_id" character varying, "owner_id" character varying, CONSTRAINT "PK_f7c8a41b5a9d0e3eeb5ab3871b0" PRIMARY KEY ("id"))`)
+    await db.query(`CREATE INDEX "IDX_4060b7cd8c3b2bca427d202044" ON "unique_class" ("created_at") `)
+    await db.query(`CREATE TABLE "unique_instance" ("id" character varying NOT NULL, "inner_id" integer NOT NULL, "status" character varying(9) NOT NULL, "metadata" text, "attributes" jsonb NOT NULL, "price" numeric NOT NULL, "minted_at" TIMESTAMP WITH TIME ZONE NOT NULL, "unique_class_id" character varying, "owner_id" character varying, CONSTRAINT "PK_f7c8a41b5a9d0e3eeb5ab3871b0" PRIMARY KEY ("id"))`)
     await db.query(`CREATE INDEX "IDX_7ceb0e3b8936e1deac76aaaa66" ON "unique_instance" ("inner_id") `)
     await db.query(`CREATE INDEX "IDX_afece6c4021225065d4c4112e9" ON "unique_instance" ("unique_class_id") `)
     await db.query(`CREATE INDEX "IDX_aa027c94b1903ff9271fea05e0" ON "unique_instance" ("owner_id") `)
     await db.query(`CREATE INDEX "IDX_e9a3d5197fd824c71b0a4ed5ad" ON "unique_instance" ("status") `)
     await db.query(`CREATE INDEX "IDX_696de9c723952d8a60434fea3e" ON "unique_instance" ("price") `)
+    await db.query(`CREATE INDEX "IDX_d6791ba0c5732a4a58acc23d5b" ON "unique_instance" ("minted_at") `)
     await db.query(`CREATE TABLE "account_transfer" ("id" character varying NOT NULL, "direction" character varying(4) NOT NULL, "event_id" character varying, "account_id" character varying, CONSTRAINT "PK_3b959a286b97fc83be6cec239a9" PRIMARY KEY ("id"))`)
     await db.query(`CREATE INDEX "IDX_ed5fefef95673aa82c2319f7b3" ON "account_transfer" ("event_id") `)
     await db.query(`CREATE INDEX "IDX_d5240d17696e229585da974641" ON "account_transfer" ("account_id") `)
@@ -45,12 +47,14 @@ module.exports = class Data1662592543186 {
     await db.query(`DROP TABLE "unique_class"`)
     await db.query(`DROP INDEX "public"."IDX_86298c2379ad253a57cf5e42df"`)
     await db.query(`DROP INDEX "public"."IDX_d649d6ee098cf67d6d5d964431"`)
+    await db.query(`DROP INDEX "public"."IDX_4060b7cd8c3b2bca427d202044"`)
     await db.query(`DROP TABLE "unique_instance"`)
     await db.query(`DROP INDEX "public"."IDX_7ceb0e3b8936e1deac76aaaa66"`)
     await db.query(`DROP INDEX "public"."IDX_afece6c4021225065d4c4112e9"`)
     await db.query(`DROP INDEX "public"."IDX_aa027c94b1903ff9271fea05e0"`)
     await db.query(`DROP INDEX "public"."IDX_e9a3d5197fd824c71b0a4ed5ad"`)
     await db.query(`DROP INDEX "public"."IDX_696de9c723952d8a60434fea3e"`)
+    await db.query(`DROP INDEX "public"."IDX_d6791ba0c5732a4a58acc23d5b"`)
     await db.query(`DROP TABLE "account_transfer"`)
     await db.query(`DROP INDEX "public"."IDX_ed5fefef95673aa82c2319f7b3"`)
     await db.query(`DROP INDEX "public"."IDX_d5240d17696e229585da974641"`)

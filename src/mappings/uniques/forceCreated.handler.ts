@@ -45,6 +45,7 @@ export async function uniqueForceCreated(
     id: eventData.classId.toString(),
     status: Status.ACTIVE,
     attributes: [],
+    createdAt: new Date(ctx.block.timestamp)
   })
   await ctx.store.save(uniqueClass)
 

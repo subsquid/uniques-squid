@@ -69,6 +69,7 @@ export async function uniqueIssued(
     status: Status.ACTIVE,
     attributes: [],
     price: 0n,
+    mintedAt: new Date(ctx.block.timestamp),
   })
 
   await ctx.store.save(uniqueInstance)

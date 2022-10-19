@@ -1,10 +1,6 @@
 import { EventHandlerContext } from '@subsquid/substrate-processor'
 import { Store } from '@subsquid/typeorm-store'
-import {
-  EventType,
-  Status,
-  UniqueClass,
-} from '../../model/generated'
+import { EventType, Status, UniqueClass } from '../../model/generated'
 import * as events from '../../types/events'
 import { createEvent, encodeId } from '../helpers'
 
@@ -55,6 +51,7 @@ export async function uniqueClassCreated(
     id: eventData.classId.toString(),
     status: Status.ACTIVE,
     attributes: [],
+    createdAt: new Date(ctx.block.timestamp),
   })
   await ctx.store.save(uniqueClass)
 
@@ -64,5 +61,4 @@ export async function uniqueClassCreated(
     type: EventType.CREATE,
   })
   await ctx.store.save(event)
-
 }
